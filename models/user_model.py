@@ -26,3 +26,21 @@ class UserModel:
             return user
         return None
 
+    def register_user(self, username, password, role='anggota'):
+        """Menambahkan pengguna baru dengan password yang telah di-hash SHA-256[cite: 11]"""
+        if self.conn:
+            cursor = self.conn.cursor()
+            password_hash = self.hash_password(password)
+            
+            query = f"INSERT INTO {self.table_name} (username, password, role) VALUES (%s, %s, %s)"
+            try:
+                cursor.execute(query, (username, password_hash, role))
+                self.conn.commit()
+                cursor.close()
+                return True
+            except Exception as e:
+                print(f"Error registrasi: {e}")
+                cursor.close()
+                return False
+        return False
+

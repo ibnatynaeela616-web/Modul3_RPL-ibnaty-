@@ -19,6 +19,7 @@ class BukuController:
         self.view.btn_simpan.configure(command=self.simpan_data)
         self.view.btn_hapus.configure(command=self.hapus_data)
         self.view.btn_update.configure(command=self.update_data)
+        self.view.btn_logout.configure(command=self.logout)
 
         # Menghubungkan pemilihan baris tabel
         self.view.tabel.bind(
@@ -162,6 +163,22 @@ class BukuController:
             self.muat_data_tabel()
         else:
             messagebox.showerror("Error", "Terjadi kesalahan saat memperbarui data.")
+
+    
+    def logout(self):
+        """Menutup halaman buku dan kembali ke Login."""
+        konfirmasi = messagebox.askyesno(
+            "Konfirmasi Logout",
+            "Apakah Anda yakin ingin keluar dari sistem?",
+            parent=self.view
+        )
+
+        if konfirmasi:
+            self.view.destroy()
+
+            from controllers.auth_controller import AuthController
+            app_auth = AuthController()
+            app_auth.run()
 
     def run(self):
         self.view.mainloop()
