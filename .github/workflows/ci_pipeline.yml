@@ -1,7 +1,7 @@
 # Ibnaty Naeela_F5212510008
 name: Python CI Pipeline - Sistem Perpustakaan
 
-# Pipeline akan berjalan otomatis saat ada push atau pull request ke branch main
+# Pipeline berjalan otomatis saat ada push atau pull request ke branch main
 on:
   push:
     branches: [ "main" ]
@@ -26,7 +26,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 4. Menjalankan Automated Unit Testing (pytest)
+      - name: 4. Memeriksa Kualitas Kode dengan Flake8
+        run: |
+          flake8 models/ controllers/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: 5. Menjalankan Automated Unit Testing (pytest)
         run: |
           python -m pytest -v
-
